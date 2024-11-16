@@ -1,73 +1,59 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using static GameStateManager;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
-    [SerializeField] private GameObject menu; // SerializeField allows you to assign in the Inspector
-    [SerializeField] private GameObject Lostmenu; // SerializeField allows you to assign in the Inspector
-    [SerializeField] private GameObject Won; // SerializeField allows you to assign in the Inspector
+    [SerializeField] private GameObject Lostmenu; // Game Over menu
+    [SerializeField] private GameObject Won; // Win menu
 
     private void Update()
     {
         // Check for the Escape key press
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ToggleMenu();
+            Debug.Log("pressed");
+            TogglePauseMenu();
         }
     }
 
     public void ContinueGame()
     {
-        menu.SetActive(false);
-        Time.timeScale = 1.0f; // Resume the game
+        GameStateManager.Instance.ChangeState(GameState.Playing);
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1;
-        Time.timeScale = 1;
-        Time.timeScale = 1;
-        Time.timeScale = 1;
-        Time.timeScale = 1; // Resume the game
+        GameStateManager.Instance.ChangeState(GameState.Playing);
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
-
     }
 
     public void ExitGame()
     {
-        Time.timeScale = 1; // start the game
-
-        SceneManager.LoadScene(1); // Load the scene with build index 1
+        SceneManager.LoadScene(1); 
     }
 
-    public void ToggleMenu()
+    public void TogglePauseMenu()
     {
-        bool isMenuActive = menu.activeSelf; // Use activeSelf instead of active
-
-        if (isMenuActive)
+        if (GameStateManager.Instance.currentState == GameState.Playing)
         {
-            Debug.Log("Close menu");
-            Time.timeScale = 1; // Resume the game
+            Debug.Log("state changed to paused ");
+            GameStateManager.Instance.ChangeState(GameState.Paused);
         }
-        else
+        else if (GameStateManager.Instance.currentState == GameState.Paused)
         {
-            Debug.Log("Open menu");
-            Time.timeScale = 0; // Pause the game
+            GameStateManager.Instance.ChangeState(GameState.Playing);
         }
-
-        menu.SetActive(!isMenuActive); // Toggle the menu visibility
     }
+
     public void ToggleLostMenu()
     {
-
         Lostmenu.SetActive(true);
     }
+
     public void ToggleWonMenu()
     {
-
-        Lostmenu.SetActive(true);
+        Won.SetActive(true);
     }
 }

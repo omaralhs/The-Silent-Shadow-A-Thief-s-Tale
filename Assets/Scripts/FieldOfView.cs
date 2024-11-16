@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using static GameStateManager;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -56,11 +57,12 @@ public class FieldOfView : MonoBehaviour
                     // Freeze the game
                     Time.timeScale = 0;
                     Debug.Log("Player detected! Game frozen.");
+                    GameStateManager.Instance.ChangeState(GameState.GameOver);
+
                     if (menuIsOpen==false)
                     {
                         Destroy(gameObject);
                         menuIsOpen = true;
-                        FindObjectOfType<Menu>()?.ToggleLostMenu();
                     }
                 }
             }
