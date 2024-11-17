@@ -1,20 +1,20 @@
 using UnityEngine;
 using static GameStateManager;
 
-public class TrophyWinTrigger : MonoBehaviour
+public class WIN : MonoBehaviour
 {
     public GameObject player;
 
+    public delegate void GemCollectedEventHandler();
+    public event GemCollectedEventHandler OnGemCollected;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject == player)
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("Player touched the trophy. You won!");
-            gameObject.SetActive(false);
-            Time.timeScale = 0; // Freeze the game
-            GameStateManager.Instance.ChangeState(GameState.Win);
+            OnGemCollected?.Invoke();
 
-
+            Destroy(gameObject);
         }
     }
 }

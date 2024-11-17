@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
-    [SerializeField] private GameObject Lostmenu; // Game Over menu
-    [SerializeField] private GameObject Won; // Win menu
+    [SerializeField] private GameObject Lostmenu;
+    [SerializeField] private GameObject Won; 
 
     private void Update()
     {
-        // Check for the Escape key press
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("pressed");

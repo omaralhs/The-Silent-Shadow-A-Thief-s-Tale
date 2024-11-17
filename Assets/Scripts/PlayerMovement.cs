@@ -16,17 +16,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Get movement input
         movement.x = Input.GetAxis("Horizontal");
         animator.SetFloat("speed", Mathf.Abs(movement.x));
 
-        // Handle jump input
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             jumpPressed = true;
         }
 
-        // Flip character direction
         if (movement.x > 0 && isFacingRight)
         {
             Flip();
@@ -39,23 +36,19 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Move the player using velocity
         rb.velocity = new Vector2(movement.x * moveSpeed, rb.velocity.y);
 
-        // Handle jumping
         if (jumpPressed)
         {
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            jumpPressed = false; // Reset jumpPressed after jumping
+            jumpPressed = false; 
         }
 
-        // Check if player is grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
     void Flip()
     {
-        // Flip the player when direction changes
         isFacingRight = !isFacingRight;
         Vector3 scale = transform.localScale;
         scale.x *= -1;
@@ -64,7 +57,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // Visualize ground check radius in the editor
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }

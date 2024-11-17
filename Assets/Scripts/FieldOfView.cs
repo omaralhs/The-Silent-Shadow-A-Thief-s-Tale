@@ -21,7 +21,7 @@ public class FieldOfView : MonoBehaviour
     {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
-        origin = transform.position; // Assign the class-level variable
+        origin = transform.position; 
     }
 
     private void LateUpdate()
@@ -51,10 +51,8 @@ public class FieldOfView : MonoBehaviour
             {
                 vertex = raycastHit2D.point;
 
-                // Check if we hit the player
                 if (raycastHit2D.collider.transform == player)
                 {
-                    // Freeze the game
                     Time.timeScale = 0;
                     Debug.Log("Player detected! Game frozen.");
                     GameStateManager.Instance.ChangeState(GameState.GameOver);
@@ -89,14 +87,13 @@ public class FieldOfView : MonoBehaviour
 
     public void SetOrigin(Vector3 origin)
     {
-        this.origin = new Vector3(origin.x, origin.y + 1f, origin.z); // Keep the slight offset
+        this.origin = new Vector3(origin.x, origin.y + 1f, origin.z); 
     }
 
     public void SetAimDirection(Vector3 aimDirection)
     {
         startingAngle = UtilsClass.GetAngleFromVector(aimDirection) - fov / 2f;
 
-        // Consider revisiting this condition
         if (startingAngle == -45f)
         {
             startingAngle = 410f;
